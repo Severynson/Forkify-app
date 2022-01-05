@@ -7,6 +7,8 @@ import 'regenerator-runtime/runtime'
 import { async } from 'regenerator-runtime';
 // https://forkify-api.herokuapp.com/v2
 
+if(module.hot) module.hot.accept();
+
 const contolRecipes = async () => {
      // 1) Loading recipe;
   try {
@@ -32,7 +34,6 @@ const controlSearchResults = async function () {
     // 2) Load search results;
     await model.loadSearchResults(query);
     // 3) Render results;
-    console.log(model.state.search.results);
     resultsView.render(model.state.search.results);
   } catch (err) {
     console.log(err);
