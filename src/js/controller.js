@@ -7,21 +7,11 @@ import 'regenerator-runtime/runtime'
 import { async } from 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
-
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
 
-
-const constolRecipes = async () => {
+const contolRecipes = async () => {
      // 1) Loading recipe;
   try {
     const id = window.location.hash.slice(1);
@@ -33,9 +23,23 @@ const constolRecipes = async () => {
     // 2) Rendering recipe;
   recipeView.render(model.state.recipe);
   } catch (err) {
-    alert(err);
+    console.log(err);
+    recipeView.renderError();
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    await model.loadSearchResults('pizza');
+    console.log(model.state.search.results);
+  } catch (err) {
+    console.log(err);
+  }
+};
+controlSearchResults();
 
-['hashchange', 'load'].forEach((ev) => window.addEventListener(ev, constolRecipes))
+const init = () => {
+  recipeView.addHandlerRender(contolRecipes)
+};
+init();
+

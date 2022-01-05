@@ -2,19 +2,26 @@
   "name": "forkify",
   "version": "1.0.0",
   "description": "Recipe application",
+  "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
   },
-  "author": "Severyn Kurach feat Jonas Schmedtman",
-  "license": "ISC",
-  "dependencies": {
-    "core-js": "^3.20.2",
-    "fractional": "^1.0.0",
-    "parcel": "^2.0.1",
-    "regenerator-runtime": "^0.13.9"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Severynson/Forkify-app.git"
   },
+  "author": "Severyn Kurach feat Jonas Schmedtmann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Severynson/Forkify-app/issues"
+  },
+  "homepage": "https://github.com/Severynson/Forkify-app#readme",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.0.1"
+    "@parcel/transformer-sass": "^2.1.0",
+    "parcel": "^2.1.0"
+  },
+  "dependencies": {
+    "fractional": "^1.0.0"
   }
 }
