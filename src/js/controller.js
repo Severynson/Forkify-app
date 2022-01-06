@@ -15,6 +15,9 @@ const contolRecipes = async () => {
     const id = window.location.hash.slice(1);
     if (!id) return;
     recipeView.renderSpiner();
+     // 0) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+     console.log(1);
      // 1) Loading recipe;
     await model.loadRecipe(id);
     // 2) Rendering recipe;
