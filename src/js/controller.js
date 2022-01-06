@@ -34,6 +34,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
     // 3) Render results;
     resultsView.render(model.getSearchResultsPage(1));
+    console.log(model.getSearchResultsPage(1));
   } catch (err) {
     console.log(err);
   }
@@ -42,7 +43,6 @@ const controlSearchResults = async function () {
 const init = () => {
   recipeView.addHandlerRender(contolRecipes);
   searchView.addHandlerSearch(controlSearchResults);
-  
 };
 init();
 
