@@ -54,7 +54,7 @@ const controlServings = (newServings = 1) => {
   if (newServings < 1) return;
   model.updateServings(newServings);
   // Updating the view;
-  recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 const init = () => {
