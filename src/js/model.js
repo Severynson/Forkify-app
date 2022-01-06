@@ -33,7 +33,7 @@ export const loadRecipe = async id => {
       state.recipe.bookmarked = true;
     } else {
       state.recipe.bookmarked = false;
-    };
+    }
   } catch (err) {
     console.error(`${err} !!!!!`);
     throw err;
@@ -42,29 +42,26 @@ export const loadRecipe = async id => {
 
 // https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza
 
-
-
-
-export const loadSearchResults = async (query) => {
+export const loadSearchResults = async query => {
   try {
     state.search.query = query;
     const data = await getJSON(`${API_URL}?search=${query}`);
     console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
-      return ({
+      return {
         id: rec.id,
-      title: rec.title,
-      publisher: rec.publisher,
-      sourceUrl: rec.source_url,
-      image: rec.image_url,
-      });
+        title: rec.title,
+        publisher: rec.publisher,
+        sourceUrl: rec.source_url,
+        image: rec.image_url,
+      };
     });
     state.search.page = 1;
   } catch (err) {
     console.error(`${err} !!!!!`);
     throw err;
-  };
+  }
 };
 
 export const getSearchResultsPage = (page = state.search.page) => {
@@ -74,9 +71,9 @@ export const getSearchResultsPage = (page = state.search.page) => {
   return state.search.results.slice(start, end);
 };
 
-export const updateServings = (newServings) => {
+export const updateServings = newServings => {
   state.recipe.ingredients.forEach(ing => {
-    ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
     // newQt = pldQt * newServings / oldServings // 2 * 8 / 4 = 4;
   });
 
@@ -87,26 +84,26 @@ const persistBookmark = () => {
   localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 
-export const addBookmark = (recipe) => {
+export const addBookmark = recipe => {
   // Add bookmark;
   state.bookmarks.push(recipe);
   // Mark current recipe as bookmark;
-  if(recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
   persistBookmark();
 };
 
-export const deleteBookmark = (id) => {
+export const deleteBookmark = id => {
   // Delete bookmark;
   const index = state.bookmarks.findIndex(el => el.id === id);
   state.bookmarks.splice(index, 1);
   // Unmark current recipe;
-  if(id === state.recipe.id) state.recipe.bookmarked = false;
+  if (id === state.recipe.id) state.recipe.bookmarked = false;
   persistBookmark();
 };
 
 const init = () => {
   const storage = localStorage.getItem('bookmarks');
-  if (storage) state.bookmarks = JSON.parse(storage)
+  if (storage) state.bookmarks = JSON.parse(storage);
   console.log(state.bookmarks);
 };
 init();
@@ -115,3 +112,14 @@ const clearBookmarks = () => {
   localStorage.clear('.bookmarks');
 };
 // clearBookmarks();
+
+export const uploadRecipe = async newRecipe => {
+  console.log(Object.entries(newRecipe));
+  const ingredients = Object.entries(newRecipe)
+    .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+    .map(ing => {
+      const [quantity, unit, description] = ing[1].replaceAll(' ', '').split(',');
+      return {quantity, unit, description};
+    });
+  console.log(ingredients);
+};
