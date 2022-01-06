@@ -22,12 +22,18 @@ export default class View {
         console.log(curElements);
         console.log(newElements);
 
+        // Updates changes TEXT;
         newElements.forEach((newEl, i) => {
             const curEl = curElements[i];
             console.log(curEl, newEl.isEqualNode(curEl));
 
-            if (!newEl.isEqualNode(curEl)) {
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
                 curEl.textContent = newEl.textContent;
+            };
+
+            // Updates changed ATTRIBUTES
+            if(!newEl.isEqualNode(curEl)) {
+                Array.from(newEl.attributes).forEach(attr => curEl.setAttribute(attr.name, attr.value));
             };
         });
     };
