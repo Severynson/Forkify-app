@@ -1,11 +1,12 @@
-import * as model from './model.js'
+import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import booksmarksView from './views/booksmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
 import 'core-js/stable';
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime';
 import { async } from 'regenerator-runtime';
 // https://forkify-api.herokuapp.com/v2
 
@@ -16,15 +17,17 @@ const contolRecipes = async () => {
     const id = window.location.hash.slice(1);
     if (!id) return;
     recipeView.renderSpiner();
-     // 0) Update results view to mark selected search result
+    // 0) Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
+    // 1) Updating bookmarks view;
     booksmarksView.update(model.state.bookmarks);
-     // 1) Loading recipe;
+    // 2) Loading recipe;
     await model.loadRecipe(id);
-    // 2) Rendering recipe;
-  recipeView.render(model.state.recipe);
+    // 3) Rendering recipe;
+    recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();
+    console.error(err);
   }
 };
 
@@ -44,11 +47,11 @@ const controlSearchResults = async function () {
   }
 };
 
-const controlPagination = (goToPage) => {
-   // 3) Render NEW results;
-   resultsView.render(model.getSearchResultsPage(goToPage));
-   // 4) Render NEW pagination buttons;
-   paginationView.render(model.state.search);
+const controlPagination = goToPage => {
+  // 3) Render NEW results;
+  resultsView.render(model.getSearchResultsPage(goToPage));
+  // 4) Render NEW pagination buttons;
+  paginationView.render(model.state.search);
 };
 
 const controlServings = (newServings = 1) => {
@@ -69,12 +72,22 @@ const controlAddBookmark = () => {
   booksmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmarks = () => {
+  booksmarksView.render(model.state.bookmarks);
+};
+
+const controlAddRecipe = (newRecipe) => {
+  console.log(newRecipe);
+  // Upload the new recipe data;
+};
+
 const init = () => {
+  booksmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(contolRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();
-
