@@ -22,6 +22,7 @@
     "parcel": "^2.1.0"
   },
   "dependencies": {
+    "core-js": "^3.20.2",
     "fractional": "^1.0.0"
   }
 }
