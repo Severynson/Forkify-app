@@ -21,10 +21,14 @@ export const getJSON = async (url) => {
     
 };
 
-export const sendJSON = async (url) => {
+export const sendJSON = async (url, uploadData) => {
   try {
      const res = await Promise.race([fetch(url, {
-       
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(uploadData)
      }), timeout(TIMEOUT_SEC)]);
   const data = await res.json();
 
