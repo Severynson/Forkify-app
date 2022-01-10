@@ -45,7 +45,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   min-height: calc(100vh - 2 * 4vw);
-  max-width: 1920px;
+  min-width: 1920px;
 }
 
 .container {
